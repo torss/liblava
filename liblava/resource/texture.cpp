@@ -504,6 +504,7 @@ lava::texture::ptr lava::load_texture(string_ref filename, texture_init_info *in
     if (!texture->create(init_info))
       return nullptr;
 
+    tex_channels = 4;
     auto uploadSize = tex_width * tex_height * tex_channels * sizeof(char);
     auto result = texture->upload(data, uploadSize);
 
