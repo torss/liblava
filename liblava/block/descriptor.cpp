@@ -45,7 +45,7 @@ void descriptor::destroy() {
     // keep device for descriptors
 }
 
-void descriptor::add_binding(index binding, VkDescriptorType descriptor_type, VkShaderStageFlags stage_flags) {
+descriptor::binding::ptr& descriptor::add_binding(index binding, VkDescriptorType descriptor_type, VkShaderStageFlags stage_flags) {
 
     auto item = make_descriptor_binding(binding);
     
@@ -53,6 +53,8 @@ void descriptor::add_binding(index binding, VkDescriptorType descriptor_type, Vk
     item->set_stage_flags(stage_flags);
 
     add(item);
+
+    return bindings.back();
 }
 
 VkDescriptorSet descriptor::allocate_set() {

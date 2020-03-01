@@ -36,7 +36,7 @@ struct descriptor : id_obj {
     using ptr = std::shared_ptr<descriptor>;
     using list = std::vector<ptr>;
 
-    void add_binding(index binding, VkDescriptorType descriptor_type, VkShaderStageFlags stage_flags);
+    descriptor::binding::ptr& add_binding(index binding, VkDescriptorType descriptor_type, VkShaderStageFlags stage_flags);
 
     void add(binding::ptr const& binding) { bindings.push_back(binding); }
 
