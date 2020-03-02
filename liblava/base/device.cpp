@@ -32,17 +32,20 @@ bool device::create(create_param::ref param) {
         queue_create_info_list[i].pQueuePriorities = param.queue_info_list[i].priorities.data();
     }
 
+    features = param.features;
+    // This would be possible too: // features = physical_device->get_features();
+    features.vk_physical_device_vulkan_1_2_features.pNext = (void*)param.next;
     VkDeviceCreateInfo create_info
     {
         .sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO,
-        .pNext = param.next,
+        .pNext = &features.vk_physical_device_features_2,
         .queueCreateInfoCount = to_ui32(queue_create_info_list.size()),
         .pQueueCreateInfos = queue_create_info_list.data(),
         .enabledLayerCount = 0,
         .ppEnabledLayerNames = nullptr,
         .enabledExtensionCount = to_ui32(param.extensions.size()),
         .ppEnabledExtensionNames = param.extensions.data(),
-        .pEnabledFeatures = &param.features,
+        .pEnabledFeatures = nullptr, // .pEnabledFeatures = &param.features, // NOTE Superseded by VkPhysicalDeviceFeatures2 (passed through VkDeviceCreateInfo::pNext)
     };
 
     if (failed(vkCreateDevice(physical_device->get(), &create_info, memory::alloc(), &vk_device))) {
@@ -51,7 +54,7 @@ bool device::create(create_param::ref param) {
         return false;
     }
 
-    features = param.features;
+    // features = param.features;
 
     load_table();
 
@@ -148,7 +151,7 @@ VkPhysicalDevice device::get_vk_physical_device() const {
     return physical_device->get();
 }
 
-VkPhysicalDeviceFeatures const& device::get_features() const { return features; }
+vulkan_features const& device::get_features() const { return features; }
 
 VkPhysicalDeviceProperties const& device::get_properties() const { return physical_device->get_properties(); }
 

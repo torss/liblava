@@ -23,7 +23,7 @@ struct physical_device : id_obj {
     device::create_param create_default_device_param() const;
 
     VkPhysicalDeviceProperties const& get_properties() const { return properties; }
-    VkPhysicalDeviceFeatures const& get_features() const { return features; }
+    vulkan_features const& get_features() const { return features; }
     VkPhysicalDeviceMemoryProperties const& get_memory_properties() const { return memory_properties; }
 
     VkQueueFamilyPropertiesList const& get_queue_family_properties() const { return queue_family_properties; }
@@ -40,7 +40,7 @@ private:
     VkPhysicalDevice vk_physical_device = nullptr;
 
     VkPhysicalDeviceProperties properties = {};
-    VkPhysicalDeviceFeatures features = {};
+    vulkan_features features;
     VkPhysicalDeviceMemoryProperties memory_properties = {};
 
     VkQueueFamilyPropertiesList queue_family_properties;

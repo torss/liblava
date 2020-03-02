@@ -8,6 +8,42 @@
 
 namespace lava {
 
+struct vulkan_features {
+    VkPhysicalDeviceFeatures2 vk_physical_device_features_2 = {};
+    VkPhysicalDeviceVulkan12Features vk_physical_device_vulkan_1_2_features = {};
+
+    vulkan_features() {
+        vk_physical_device_features_2.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2;
+        vk_physical_device_features_2.pNext = &vk_physical_device_vulkan_1_2_features;
+        vk_physical_device_vulkan_1_2_features.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_FEATURES;
+    }
+
+    vulkan_features(const vulkan_features &other) noexcept {
+        *this = other;
+    }
+
+    vulkan_features(vulkan_features &&other) noexcept {
+        *this = std::move(other);
+    }
+
+    vulkan_features &operator=(const vulkan_features &other) {
+        vk_physical_device_features_2 = other.vk_physical_device_features_2;
+        vk_physical_device_vulkan_1_2_features = other.vk_physical_device_vulkan_1_2_features;
+        vk_physical_device_features_2.pNext = &vk_physical_device_vulkan_1_2_features;
+        return *this;
+    }
+
+    vulkan_features &operator=(vulkan_features &&other) noexcept {
+        *this = other;
+        return *this;
+    }
+
+    VkPhysicalDeviceFeatures& get_v1() { return vk_physical_device_features_2.features; }
+    VkPhysicalDeviceFeatures const& get_v1() const { return vk_physical_device_features_2.features; }
+    VkPhysicalDeviceVulkan12Features& get_v1_2() { return vk_physical_device_vulkan_1_2_features; }
+    VkPhysicalDeviceVulkan12Features const& get_v1_2() const { return vk_physical_device_vulkan_1_2_features; }
+};
+
 // fwd
 struct physical_device;
 using physical_device_cptr = physical_device const*;
@@ -44,7 +80,7 @@ struct device : device_table {
         queue_info::list queue_info_list;
 
         names extensions;
-        VkPhysicalDeviceFeatures features{};
+        vulkan_features features;
         void const* next = nullptr; // pNext
 
         void set_default_queues() {
@@ -96,7 +132,7 @@ struct device : device_table {
     physical_device_cptr get_physical_device() const { return physical_device; }
     VkPhysicalDevice get_vk_physical_device() const;
 
-    VkPhysicalDeviceFeatures const& get_features() const;
+    vulkan_features const& get_features() const;
     VkPhysicalDeviceProperties const& get_properties() const;
 
     bool surface_supported(VkSurfaceKHR surface) const;
@@ -117,7 +153,7 @@ private:
     device::queue::list compute_queue_list;
     device::queue::list transfer_queue_list;
 
-    VkPhysicalDeviceFeatures features;
+    vulkan_features features;
 
     allocator::ptr mem_allocator;
 };

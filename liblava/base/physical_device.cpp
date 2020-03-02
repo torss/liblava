@@ -11,7 +11,7 @@ void physical_device::initialize(VkPhysicalDevice pd) {
     vk_physical_device = pd;
 
     vkGetPhysicalDeviceProperties(vk_physical_device, &properties);
-    vkGetPhysicalDeviceFeatures(vk_physical_device, &features);
+    vkGetPhysicalDeviceFeatures2(vk_physical_device, &features.vk_physical_device_features_2);
     vkGetPhysicalDeviceMemoryProperties(vk_physical_device, &memory_properties);
 
     auto queue_family_count = 0u;

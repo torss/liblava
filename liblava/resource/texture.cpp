@@ -47,7 +47,7 @@ void vk_sampler_create_info__init_base_alpha(VkSamplerCreateInfo &sampler_info) 
   // sampler_info.addressModeV = sampler_address_mode;
   // sampler_info.addressModeW = sampler_address_mode;
   sampler_info.mipLodBias = 0.f;
-  // sampler_info.anisotropyEnable = device->get_features().samplerAnisotropy;
+  // sampler_info.anisotropyEnable = device->get_features().get_v1().samplerAnisotropy;
   // sampler_info.maxAnisotropy = device->get_properties().limits.maxSamplerAnisotropy;
   sampler_info.compareEnable = VK_FALSE;
   sampler_info.compareOp = VK_COMPARE_OP_NEVER;
@@ -95,7 +95,7 @@ bool texture::create(texture_init_info *init_info) {
   sampler_info.addressModeU = sampler_address_mode;
   sampler_info.addressModeV = sampler_address_mode;
   sampler_info.addressModeW = sampler_address_mode;
-  sampler_info.anisotropyEnable = device->get_features().samplerAnisotropy;
+  sampler_info.anisotropyEnable = device->get_features().get_v1().samplerAnisotropy;
   sampler_info.maxAnisotropy = device->get_properties().limits.maxSamplerAnisotropy;
   sampler_info.maxLod = to_r32(layers.front().levels.size());
 
@@ -337,9 +337,9 @@ lava::texture::ptr lava::load_texture(string_ref filename, texture_init_info *in
   auto &type = init_info->type;
 
   auto supported = (format == VK_FORMAT_R8G8B8A8_UNORM) ||
-                   (device->get_features().textureCompressionBC && (format == VK_FORMAT_BC3_UNORM_BLOCK)) ||
-                   (device->get_features().textureCompressionASTC_LDR && (format == VK_FORMAT_ASTC_8x8_UNORM_BLOCK)) ||
-                   (device->get_features().textureCompressionETC2 && (format == VK_FORMAT_ETC2_R8G8B8A8_UNORM_BLOCK));
+                   (device->get_features().get_v1().textureCompressionBC && (format == VK_FORMAT_BC3_UNORM_BLOCK)) ||
+                   (device->get_features().get_v1().textureCompressionASTC_LDR && (format == VK_FORMAT_ASTC_8x8_UNORM_BLOCK)) ||
+                   (device->get_features().get_v1().textureCompressionETC2 && (format == VK_FORMAT_ETC2_R8G8B8A8_UNORM_BLOCK));
   if (!supported)
     return nullptr;
 
