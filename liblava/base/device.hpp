@@ -170,7 +170,7 @@ struct device_manager {
 
     void clear();
 
-    using create_param_func = std::function<void(device::create_param&)>;
+    using create_param_func = std::function<void(device::create_param&, physical_device const&)>;
     create_param_func on_create_param;
 
 private:

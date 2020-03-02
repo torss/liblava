@@ -33,7 +33,6 @@ bool device::create(create_param::ref param) {
     }
 
     features = param.features;
-    // This would be possible too: // features = physical_device->get_features();
     features.vk_physical_device_vulkan_1_2_features.pNext = (void*)param.next;
     VkDeviceCreateInfo create_info
     {
@@ -175,7 +174,7 @@ device::ptr device_manager::create(index pd) {
 
     auto param = physical_device->create_default_device_param();
     if (on_create_param)
-        on_create_param(param);
+        on_create_param(param, *physical_device);
 
     return create(param);
 }
