@@ -34,6 +34,8 @@ struct app : frame {
 
     bool setup();
 
+    bool user_reload_requested = false;
+
     lava::window window;
     lava::input input;
 

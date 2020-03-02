@@ -303,7 +303,9 @@ void app::handle_window() {
         if (window.close_request())
             return shut_down();
 
-        if (window.switch_mode_request() || toggle_v_sync || target->reload_request()) {
+        if (window.switch_mode_request() || toggle_v_sync || user_reload_requested || target->reload_request()) {
+
+            user_reload_requested = false;
 
             device->wait_for_idle();
 
