@@ -180,7 +180,7 @@ void gui::setup(GLFWwindow* w, config config) {
     io.GetClipboardTextFn = get_clipboard_text;
     io.ClipboardUserData = window;
 #if defined(_WIN32)
-    io.ImeWindowHandle = (void*)glfwGetWin32Window(window);
+    // io.ImeWindowHandle = (void*)glfwGetWin32Window(window);
 #endif // _WIN32
 
     mouse_cursors.resize(ImGuiMouseCursor_Count_);
