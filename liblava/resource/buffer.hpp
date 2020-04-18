@@ -41,7 +41,7 @@ struct buffer : id_obj {
 
     void flush(VkDeviceSize offset = 0, VkDeviceSize size = VK_WHOLE_SIZE);
 
-private:
+// private:
     device_ptr device = nullptr;
 
     VkBuffer vk_buffer = 0;
