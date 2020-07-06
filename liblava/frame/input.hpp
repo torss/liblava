@@ -226,7 +226,7 @@ struct input : id_obj {
     mouse_position get_mouse_position() const { return current_position; }
     void set_mouse_position(mouse_position const& position) { current_position = position; }
 
-private:
+// private:
     mouse_position current_position;
 
     input_callback::list callbacks;
