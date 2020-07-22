@@ -69,7 +69,7 @@ struct texture : id_obj {
 
   VkFormat get_format() const { return img ? img->get_format() : VK_FORMAT_UNDEFINED; }
 
-private:
+  // private:
   image::ptr img;
 
   texture_type type = texture_type::none;
